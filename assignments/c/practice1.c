@@ -1,10 +1,15 @@
 #include<stdio.h>
 #include<string.h>
 
+/* This file will not compile until it is complete - you can comment out
+ * any failing code that you haven't completed yet.
+ */
+
 int array_max(int a[], int len);
 int letter_count(char a[], int len);
 void printThem(int count);
 
+/* Define struct */
 int main(void) {
   int nums[11] = {1, 3, 5, 7, 9, 11, 10, 8, 6, 4, 2};
   char str[] = "CSC240 Fall 2019";
