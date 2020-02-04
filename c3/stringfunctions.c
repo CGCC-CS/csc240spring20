@@ -102,6 +102,13 @@ int main(void) {
     sprintf(mystr, "%dx^%d", 2, 3);
     printf("   mystr: %s\n", mystr);
 
+    /* Create a string with an list of values */
+    sprintf(mystr, "[%d,%d,%c,%f]",1,2,'K',3.14); 
+    printf("   mystr: --> %s <--\n", mystr);
+    sprintf(mystr, "%c%c",'K','&'); 
+    printf("   mystr: --> %s <--\n", mystr);
+    mystr[2] = '!';
+    printf("   mystr: --> %s <--\n", mystr);
 
     free(ptr1);
     free(ptr2);
