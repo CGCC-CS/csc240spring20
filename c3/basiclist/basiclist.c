@@ -44,6 +44,7 @@ int main(void) {
     list_add(&list, new_int);
   }
 
+  printf("Initial list:\n");
   ii = 0;
   curr = list;
   while (curr != NULL) {
@@ -52,12 +53,15 @@ int main(void) {
     curr = curr->next;
   }
 
+  printf("\n");
   num = *((int *) list_remove_first(&list));
   printf("Remove 1 = %d\n", num);
   num = *((int *) list_remove_first(&list));
   printf("Remove 2 = %d\n", num);
-  ii = 0;
+  printf("\n");
 
+  printf("List after removing 2 elements:\n");
+  ii = 0;
   curr = list;
   while (curr != NULL) {
     printf("list[%d] = %d\n", ii, *((int *) curr->data));

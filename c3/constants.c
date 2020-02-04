@@ -31,13 +31,13 @@ int main(void) {
   printf("TWENTY=%d\n", TWENTY);
 
   /* Not allowed
-  my_const ++;
-  TEN++;
-  NUM++;
-  TEN = 11;
-  (*p)++;
-  *(&my_const) = 42;
-  */
+   *   my_const ++;
+   *   TEN++;
+   *   NUM++;
+   *   TEN = 11;
+   *   (*p)++;
+   *   *(&my_const) = 42;
+   */
 
   /* Allowed */
   (*j)++;   /* But not good if j is pointing to a constant! */

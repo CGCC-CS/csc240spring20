@@ -1,7 +1,7 @@
 /* Very basic linked list example */
-/*   Add to head, remove from tail */
-#ifndef BASICLIST_H_
-#define BASICLIST_H_
+/*   Add to & remove from the head */
+#ifndef BASICLIST_H
+#define BASICLIST_H
 
 typedef struct node {
   void * data;         /* pointer to data */
