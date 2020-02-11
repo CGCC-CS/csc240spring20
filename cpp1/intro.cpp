@@ -16,6 +16,7 @@ int main() {
     cout << "b = " << b << endl;
     cout << "c = " << c << endl;
     cout << "d = " << d << endl;
+    cout << endl;
 
     // Automatic types - deduced from the initalizer
     auto m = 3;
@@ -27,6 +28,7 @@ int main() {
     cout << "n = " << n << endl;
     cout << "o = " << o << endl;
     cout << "p = " << p << endl;
+    cout << endl;
 
     // Constants
     const int cint = 10;
@@ -34,6 +36,7 @@ int main() {
 
     cout << "cint = " << cint << endl;
     cout << "cexp = " << cexp << endl;
+    cout << endl;
 
     // Range-for (or for-each)
     vector<int> v = {1, 2, 3, 4};
