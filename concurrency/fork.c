@@ -7,40 +7,31 @@ int main(int argc, char*argv[]) {
   int pid;
   pid_t childwait;
   int n = 0;
+  int ii;
 
   printf("Before fork: n = %d\n", n);
-  sleep(1);
-
-  // Fork the process - the PID of the child process will be 0
+  sleep(5);
   pid = fork();
-  sleep(2);
 
   if(pid == 0) {
-    printf("\t\t\t\tChild process:\n");
-    printf("\t\t\t\t   n=%d, PID=%d\n",n, pid);
-    while(n < 10) {
-      printf ("\t\t\t\tC%d\n", n);
-      sleep(1);
-      n++;
+    n = 1;
+    printf("Child process.  n=%d, returned PID=%d\n",n, pid);
+    for (ii=0;ii<10;ii++) {
+       printf ("\t\t\t\t\tC\n");
+       sleep(1);
     }
-    sleep(2);
-    printf("\nChild process: complete, n = %d\n", n);
   }
   else {
-    printf("\tParent process:\n");
-    printf("\t   n=%d, Child PID=%d\n",n, pid);
-    while(n < 5) {
-      printf ("\tP%d\n", n);
-      sleep(1);
-      n++;
+    n = 2;
+    printf("Parent process.  n=%d, Child PID=%d\n",n, pid);
+    for (ii=0;ii<5;ii++) {
+       printf ("\t\t\t\t\t\tP\n");
+       sleep(1);
     }
-    printf("Parent process: waiting for child to complete\n");
     wait(&childwait);
     printf("Parent process: child complete\n");
-    sleep(2);
-    printf("\nParent process: complete, n = %d\n", n);
   }
 
-  printf("PID %d complete\n", pid);
+  printf("After fork: n = %d\n", n);
   exit(0);
 }
