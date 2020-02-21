@@ -1,5 +1,5 @@
 CC=gcc 
-CFLAGS=-Wall -pedantic -ansi
+CFLAGS=-Wall -pedantic --std=c11
 
 all: project2.c term.o polynomial.o basiclist.o
 	$(CC) $(CFLAGS) project2.c term.o polynomial.o basiclist.o -o project2
