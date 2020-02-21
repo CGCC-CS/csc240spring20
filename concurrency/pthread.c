@@ -3,7 +3,10 @@
 #include <pthread.h>
 #include <unistd.h> 
 
-/* gcc pthread.c -lpthread */
+/* To compile: 
+ *    gcc --std=c11 -pedantic -Wall pthread.c
+ *    (you may also need to include -lpthread to pull in the thread library 
+ */
 
 void *count_to_ten(void *x) {
     int ii;
@@ -20,41 +23,37 @@ void *count_to_ten(void *x) {
 int main() {
   int x = 0;
   int y = 0;
-  int ii;
   int rc;
-
   pthread_t new_thread;
 
   printf("Before:\n");
   printf("  x=%d at %p\n",x, (void *) &x);
-  printf("  y=%d at %p\n\n",y, (void *) &y);
+  printf("  y=%d at %p\n",y, (void *) &y);
 
-  /* Create a thread & check that it was successfully created 
-       the thread will execute the count_to_ten function with 
-       x as a parameter */
+  /* count_to_ten(&x); */
   rc = pthread_create(&new_thread, NULL, count_to_ten, &x);
-  if (rc) {
-      fprintf(stderr, "ERROR code %d calling pthread_create\n",rc);
-      return 1;
+  if (rc != 0) {
+      fprintf(stderr, "ERROR code %d calling pthread_create\n", rc);
+      exit(-1);
   }
-
-  /* This code will execute concurrently with the thread */
+ 
   printf("\t\t\tMain:\n");
-  for (ii=0;ii<5;ii++) {
-      printf("\t\t\ty=%d\n", y++);
-      fflush(stdout);
+  for(int ii=0;ii<5;ii++) {
+      printf("\t\t\ty=%d\n",y);
+      y++;
       sleep(1);
   }
 
   /* Wait for the thread to exit */
   if (pthread_join(new_thread, NULL)) {
       fprintf(stderr, "Error joining pthread\n");
-      return 1;
+      exit(-1);
   }
 
-  printf("After - both x & y are modified:\n");
+  printf("After:\n");
   printf("  x=%d at %p\n",x, (void *) &x);
   printf("  y=%d at %p\n",y, (void *) &y);
 
   return(0);
+
 }
