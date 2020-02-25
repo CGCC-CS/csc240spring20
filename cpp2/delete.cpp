@@ -2,37 +2,34 @@
 
 using namespace std;
 
-class myDeleteClass {
+class MyDeleteClass {
   private:
     int *a;
     int *b;
 
   public:
   // Constructor
-  myDeleteClass() {
-    static int counter = 1;
-
+  MyDeleteClass(int size=5) {
     a = new int;
-    *a = counter * 5;
-    b = new int[*a];
+    *a = size;
+    b = new int[size];
     for (int ii=0;ii<*a;ii++) {
       b[ii] = ii+1;
     }
-    counter ++;
   }
 
-  // How would you write a copy constructor for myDeleteClass?
+  // How would you write a copy constructor for MyDeleteClass?
 
   // Destructor
-  ~myDeleteClass() {
+  ~MyDeleteClass() {
     delete a;
-    a = nullptr;
-    delete[] b;    // b points to an array, use delete[]
-    b = nullptr;
+    delete[] b;     // b points to an array, use delete[]
+    a = nullptr; 
+    b = nullptr; 
   }
 
   void print() {
-    cout << "  object " << *a << ": " ;
+    cout << "  MyDeleteClass " << *a << ": " ;
     for(int ii=0;ii<*a;ii++) {
       cout << b[ii] << " "; 
     }
@@ -42,13 +39,14 @@ class myDeleteClass {
 
 
 int main() {
-  myDeleteClass c1;            // value semantics
-  myDeleteClass * c2;
-  c2 = new myDeleteClass();    // reference semantics
+  MyDeleteClass c1(10);      // value semantics
+  MyDeleteClass * c2;
+  c2 = new MyDeleteClass(5); // reference semantics
 
-  cout << "C1:" << endl;
+  cout << "C1: " << endl;
   c1.print();
-  cout << endl << "C2:" << endl;
+  cout << "C2: " << endl;
   c2->print();
-  return 0;
+ 
+  return 0; 
 }
