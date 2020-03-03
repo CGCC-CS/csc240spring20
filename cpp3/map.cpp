@@ -7,46 +7,46 @@ using namespace std;
 
 int main() {
   map<string, int> grades;
-
+  map<string,int>:: iterator itr;
+  
   grades.insert(pair<string, int>("Bruce", 84));
   grades.insert(pair<string, int>("Rachel", 98));
-  grades.insert(pair<string, int>("Liam", 95));
+  grades.insert(pair<string, int>("Liam", 99));
   grades.insert(pair<string, int>("Jackson", 90));
   grades.insert(pair<string, int>("Anna", 92));
 
-  map<string, int>::iterator itr;
-  for(itr=grades.begin(); itr != grades.end(); ++itr) {
-    cout << itr->first << " " << itr->second << endl;
+  for(itr=grades.begin(); itr != grades.end();  ++itr) {
+     cout << itr->first << " " << itr->second << endl;
   }
 
   // Delete Jackson's grade
   int gradeCount = grades.erase("Jackson");
-  cout << endl << "Removed " << gradeCount << " grades" << endl;
-  
-  cout << endl << "Remaining grades:" << endl;
-  for(itr=grades.begin(); itr != grades.end(); ++itr) {
-    cout << itr->first << " " << itr->second << endl;
+  cout << endl << "Removed " << gradeCount << " Grades" << endl;
+  cout << endl << "Remaining grades: " << endl;
+  for(itr=grades.begin(); itr != grades.end();  ++itr) {
+     cout << itr->first << " " << itr->second << endl;
   }
- 
+
   cout << endl << "Finding grades: " << endl;
-  // Look for a grade for Rachel
-  if (grades.find("Rachel") == grades.end() ) {
-     cout << "Unable to find a grade for Rachel" << endl;
-  }
+  string searchName = "Rachel";
+  if (grades.find(searchName) == grades.end()) {
+    cout << "Unable to find grade for " << searchName << endl;
+  } 
   else {
-     cout << "Rachel's grade = " << grades.at("Rachel") << endl;
+    cout << searchName << "'s grade = " << grades.at(searchName) << endl; 
   }
-  // Look for a grade for Brode
-  if (grades.find("Brode") == grades.end() ) {
-     cout << "Unable to find a grade for Brode" << endl;
-  }
+  searchName = "Jackson";
+  if (grades.find(searchName) == grades.end()) {
+    cout << "Unable to find grade for " << searchName << endl;
+  } 
   else {
-     cout << "Brode's grade = " << grades.at("Brode") << endl;
+    cout << searchName << "'s grade = " << grades.at(searchName) << endl; 
   }
 
   // Give Bruce 5 bonus points
-  cout << endl << "Updating Bruce's grade:" << endl;
+  cout << endl << "Updating Bruce's grade: " << endl;
   grades.at("Bruce") += 5;
   cout << "Bruce's updated grade = " << grades.at("Bruce") << endl;
+
   return 0;
 }
