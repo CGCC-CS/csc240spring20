@@ -16,22 +16,11 @@
 (+ 1 2 3)
 (= 1 (- 3 2) (+ -4 5))
 
-; Comments start with semicolon
-#;(Comment out an entire form "#;")
-#;(define i-am-ignored
-    (lambda (x)
-      (* x 0)))
-
-(newline)
-"Checking if a value is an atom"
-(define atom?
-  (lambda (x)
-    (and (not (pair? x)) (not (null? x)))))
-(atom? 3)
-(atom? "Atom")
-(atom? 'Atom)
-(atom? (cons 1 2))
-(atom? (list 1 2 3))
+; Comments start with a semicolon
+#; (Comment out an entire form with "#;")
+#; (define i-am-ignored
+     (lambda (x)
+       (* x 0)))
 
 (define mynumber 10)
 (define myname "Wade")
@@ -40,13 +29,25 @@
 (+ 1#$#&%FV mynumber)
 
 (newline)
-"Data types"
+"Data type"
 "Hello, world" ; string
 'HelloWorld    ; symbol
 +              ; primitive
 #t             ; boolean
 #f             ; boolean
 #\A            ; character
+
+"Symbols & Strings"
+(newline)
+(symbol? "hello")
+(string? "hello")
+(symbol? 'hello)
+(string? 'hello)
+(symbol->string 'hello)
+(string->symbol "Hello")
+(symbol? 5)
+(symbol? '5)
+(symbol? '1TwoIII)
 
 (newline)
 "Numeric data types:"
@@ -73,31 +74,15 @@
 (real? 2+i)
 (real? 2+0i)
 
-"Rational"
+"Others"
 (rational? 1/3)
-
-"Complex"
 (complex? 2+i)
-
-"Number"
+(complex? 2+0i)
 (number? 5)
-(number? (- 10 5))
 (number? (car '(8 10 5)))
 (number? "One")
 (number? 'One)
 (number? '1)
-
-(newline)
-"Symbols & Strings"
-(symbol? "hello")
-(string? "hello")
-(symbol? 'hello)
-(string? 'hello)
-(symbol->string 'hello)
-(string->symbol "Hello")
-(symbol? 5)
-(symbol? '5)
-(symbol? '1TwoIII)
 
 (newline)
 "Math"
@@ -137,17 +122,28 @@ z
 (newline)
 "Defining procedures"
 (* 3 x)  ; Scheme form
-(lambda (x) (* 3 x))  ; Unamed procedure
+(lambda (x) (* 3 x))  ; Unnamed procedure
 ((lambda (x) (* 3 x)) 5)
 ((lambda (x) (* 3 x)) x)
-(define trip  ; define associates a name with a form
-  (lambda (x) ; lambda defines a procedure
-    (* 3 x))) ; this form associates the name "trip" with the lambda expression
+(define trip    ; define associates a name with a form
+  (lambda (x)   ; lambda defines a procedure
+    (* 3 x)))   ; this form associates the name "trip" with the lambda expression
 trip
 (trip 5)
-(trip x)
+(trip 20)
 (trip (z))
 (+ 1 x (trip 5))
+
+(newline)
+"Define a predicate to check if a value is an atom"
+(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+(atom? 3)
+(atom? "Atom")
+(atom? 'Atom)
+(atom? (cons 1 2))
+(atom? (list 1 2 3))
 
 "Define a procedure with 2 parameters"
 (define addem
@@ -155,9 +151,9 @@ trip
     (+ a b)))
 addem
 (addem x y)
-(addem 10 (addem 20 3))
+(addem 10 (addem 20 30))
 
-"Indrement function"
+"Increment function"
 (define increment
   (lambda (x)
     (+ x 1)))
@@ -168,25 +164,25 @@ addem
 "Function as a parameter"
 (define do
   (lambda (this that)
-    (this that)))
+     (this that)))
 (do increment 10)
 (do - 20)
 (do trip 27)
 (do integer? 8)
 (do (lambda (x) (* x (+ x 1))) 3)
 
-;(do 10 20)   ; 10 is not a procedure
-;(do addem 1) ; airity mismatch - addem takes 2 procedures
+;(do 10 20) ; 10 is not a procedure
+;(do addem 1) ; airity mismatch - addem takes 2 parameters
 (do (lambda (x) (addem x 100)) 1)
-
 
 (newline)
 "Conditionals"
 (if (> 3 2) 'bigger 'smaller)
 (if (< 3 2) 'bigger 'smaller)
-x
+
 (if (= x 10) (+ x 5) (do trip x))
 (if (= x 12) (+ x 5) (do trip x))
+
 (define director
   (lambda (k)
     (cond
@@ -226,8 +222,8 @@ x
 '(x y z)
 (quote (x y z))
 (define lst '(a b c))
-(define lst2 (list 'a 2 "hello" 'world / #f + fact-tail 18 x 'y 'a #\H '(1 2 3) (+ 3 1)))
-(define lst3 (quote ('a 2 "hello" 'world / #f + fact-tail 18 x 'y 'a #\H '(1 2 3) (+ 3 1))))
+(define lst2 (list 'a 2 "hello" 'world / #f + fact-tail 10 x 'y 'a #\H '(1 2 3) (+ 3 1)))
+(define lst3 (quote ('a 2 "hello" 'world / #f + fact-tail 10 x 'y 'a #\H '(1 2 3) (+ 3 1))))
 (define oplist (list + - * /))
 lst
 lst2
@@ -235,11 +231,11 @@ lst3
 oplist
 
 (newline)
-"quote vs list"
+"quote vs list)"
 (+ 1 2)          ; evaluate the operator + on the operands 1 & 2
 '(+ 1 2)         ; do not evaluate, treat like a list
-(quote (+ 1 2))  ; same as above
-(list + 1 2)     ; add the addition operator, 1 & 2 to a list
+(quote (+ 1 2))  ; same as the above
+(list + 1 2)     ; create a list with the elements + (the addition operator), 1, and 2
 
 (newline)
 "List operations"
@@ -252,10 +248,10 @@ lst
 (cdr (cdr (cdr lst)))
 "Other examples"
 (cdr '(1))
-(car '((4 5 6 )))
-(cdr '((4 5 6 )))
-(car (car '((4 5 6 ))))
-(cdr (car '((4 5 6 ))))
+(car '((4 5 6)))
+(cdr '((4 5 6)))
+(car (car '((4 5 6))))
+(cdr (car '((4 5 6))))
 (car (cdr '(a b c)))
 (cadr '(a b c))
 (caddr '(a b c))
@@ -265,14 +261,16 @@ lst
 (car '(1))
 (cdr '(1))
 
-
-
 (newline)
 "Fun with car & cdr"
 (define lst4 '((1 2) (3 4 (5 6)) (7 8)))
 lst4
 (car lst4)
 (cdr lst4)
+(car (car lst4))
+(cdr (car lst4))
+(car (cdr lst4))
+(cdr (cdr lst4))
 (car (car (cdr lst4)))
 (cdr (car (cdr lst4)))
 (car (cdr (car (cdr lst4))))
@@ -285,28 +283,32 @@ lst4
 (cdr (cdr (car (cdr (cdr (car (cdr lst4)))))))
 
 (newline)
+"Cool example"
+oplist
+(car oplist)   ; + operator
+((car oplist) 1 2 3 4) ; +
+((cadr oplist) 1 2 3 4) ; -
+((car (cdr (cdr oplist))) 10 11 12) ; *
+
+(newline)
 "Checking equality"
 (define num 8)
+"="
 (= 32 32)
 (= 32 (* 4 8))
 (= 8 num)
-"Equality checking with eq?"
+"eq?"
 (eq? 'Hello 'Hello)
 (eq? 32 32)
 (eq? 8 num)
 (eq? 8 '8)
 (eq? '(1 2 3) '(1 2 3))
-"Equality checking with equal?"
+(eq? 8 (+ 2 3 3))
+"equal?"
 (equal? 'Hello 'Hello)
 (equal? 32 32)
 (equal? 8 num)
 (equal? 8 '8)
 (equal? '(1 2 3) '(1 2 3))
+(equal? 8 (+ 2 3 3))
 
-(newline)
-"Cool example"
-oplist
-(car oplist) ; +
-((car oplist) 1 2 3 4)  ; +
-((cadr oplist) 1 2 3 4)  ; -
-((car (cdr (cdr oplist))) 10 11 12) ;*
