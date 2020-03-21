@@ -34,59 +34,6 @@ c
 (fib-tail 20)
 
 (newline)
-"null"
-null
-(null? '())
-(null? 3)
-(null? 0)
-;(null? ())
-(null? (+ 5 2))
-(null? null)
-(null? null?)
-(null? (cdr '(1)))
-
-(newline)
-"Elements in a list"
-(define isit-lst0 (+ 2 3))
-(define isit-lst1 '(+ 2 3))
-(define isit-lst2 (list + 2 3))
-(define isit-lst3 (list (+ 2 3 )))
-(define isit-lst4 (list '(+ 2 3 )))
-(define isit-lst5 (cons '+ (cons 2 '(3))))
-(define isit-lst6 (cons '+ (cons 2 (cons 3 '()))))
-(define isit-lst7 (cons '+ (cons 2 (cons 3 null))))
-
-isit-lst0
-isit-lst1
-isit-lst2
-isit-lst3
-isit-lst4
-isit-lst5
-isit-lst6
-isit-lst7
-
-(length isit-lst4)
-(length (car isit-lst4))
-(car isit-lst4)
-(cdr isit-lst4)
-;((car isit-lst1) 10 20 30)
-((car isit-lst2) 10 20 30)
-;      +                 2                 3
-((car isit-lst2) (cadr isit-lst2) (caddr isit-lst2))
-
-
-(newline)
-"More lists"
-(define exlst0 (list 2 (+ 2 1)))
-(define exlst1 (list list 2 3))
-(define exlst2 (list list 2 3 (list + 2 3) (+ 2 3)))
-(define exlst3 '(list 2 3 (list + 2 3) (+ 2 3)))
-exlst0
-exlst1
-exlst2
-exlst3
-
-(newline)
 "Conditional statements"
 (define what-is-it?
   (lambda (x)
@@ -110,6 +57,7 @@ exlst3
 (return-something 8)
 (return-something 7)
 (return-something 3)
+
 
 (newline)
 "Recursive arithmetic"
@@ -141,13 +89,24 @@ exlst3
 (recursive-mult 15 10)
 (recursive-mult 0 3)
 
-(newline)
-"List operations"
-(car '(a))
-(cdr '(a))
-(cons 'b '(a))
+
+
 
 (newline)
+"null"
+null
+(null? '())
+(null? 3)
+(null? 0)
+;(null? ())
+(null? (+ 5 2))
+(null? null)
+(null? null?)
+(null? (cdr '(1)))
+
+
+(newline)
+"List procedures review"
 (define lst '(1 2 3 4))
 (car lst)
 (cdr lst)
@@ -162,8 +121,53 @@ exlst3
 (cons lst (list 5))
 (append lst (list 5))
 
+
 (newline)
-"Procedures with lists"
+"Creationg a list"
+(define exlst0 (+ 2 3))
+(define exlst1 '(+ 2 3))
+(define exlst2 (list + 2 3))
+(define exlst3 (list (+ 2 3 )))
+(define exlst4 (list '(+ 2 3 )))
+(define exlst5 (cons '+ (cons 2 '(3))))
+(define exlst6 (cons '+ (cons 2 (cons 3 '()))))
+(define exlst7 (cons '+ (cons 2 (cons 3 null))))
+(define exlst8 (list 2 (+ 2 1)))
+(define exlst9 (list list 2 3))
+(define exlst10 (list list 2 3 (list + 2 3) (+ 2 3)))
+(define exlst11 '(list 2 3 (list + 2 3) (+ 2 3)))
+exlst0
+exlst1
+exlst2
+exlst3
+exlst4
+exlst5
+exlst6
+exlst7
+exlst8
+exlst9
+exlst10
+exlst11
+
+
+(length exlst4)
+(length (car exlst4))
+(car exlst4)
+(cdr exlst4)
+;((car exlst1) 10 20 30)
+((car exlst2) 10 20 30)
+;      +           2              3
+((car exlst2) (cadr exlst2) (caddr exlst2))
+
+(newline)
+"List operations"
+(car '(a))
+(cdr '(a))
+(cons 'b '(a))
+
+
+(newline)
+"Defining List Procedures"
 lst
 
 "Check if a list is non-empty"
@@ -228,6 +232,24 @@ lst
 (rember 1 '(1 2 3 4))
 (rember 5 '(1 2 3 4))
 
+
+"Duplicate each element of the list"
+(define duplicatelist
+  (lambda (lst)
+    (if (null? lst)
+        '()
+        (cons (car lst) (cons (car lst) (duplicatelist (cdr lst)))))))
+(duplicatelist lst)
+
+"Return list with only numbers"
+(define onlynums
+  (lambda (lst)
+    (if (null? lst)
+        '()
+        (if (number? (car lst))
+            (cons (car lst) (onlynums (cdr lst)))
+            (onlynums (cdr lst))))))
+
 "Add two lists of numbers"
 (define addlists
   (lambda (lst1 lst2)
@@ -286,24 +308,9 @@ lst
     (sumlist (doublelist lst))))
 (better-sumdoublelist '(-1 2 3 -4 7 -3 9 -4))
 
-"Duplicate each element of the list"
-(define duplicatelist
-  (lambda (lst)
-    (if (null? lst)
-        '()
-        (cons (car lst) (cons (car lst) (duplicatelist (cdr lst)))))))
-(duplicatelist lst)
-
-"Return list with only numbers"
-(define onlynums
-  (lambda (lst)
-    (if (null? lst)
-        '()
-        (if (number? (car lst))
-            (cons (car lst) (onlynums (cdr lst)))
-            (onlynums (cdr lst))))))
 
 
+(newline)
 "Pairs"
 (cons 1 '(2))
 (cons 1 2)
