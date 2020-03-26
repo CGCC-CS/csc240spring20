@@ -33,6 +33,22 @@
 (grade 899)
 (grade 901)
 
+(newline)
+"Including a module"
+(require "scheme3inc.scm")
+(fib-tail 10)
+
+(define hanoi
+  (lambda (n source center destination)
+    (if (= n 1)  ; stopping condition
+      (list 'Move source destination)
+      (list
+          (hanoi (- n 1) source destination center)
+          (hanoi 1 source center destination)
+          (hanoi (- n 1) center source destination))
+      )))
+(hanoi 4 'red 'middle 'blue)
+
 
 "Multiply-all"
 (define multiply-all
@@ -170,22 +186,6 @@ f1
 (f3 -2)
 (f4 2)
 (f4 -2)
-
-(newline)
-"Including a module"
-(require "scheme3inc.scm")
-(fib-tail 10)
-
-(define hanoi
-  (lambda (n source center destination)
-    (if (= n 1)  ; stopping condition
-      (list 'Move source destination)
-      (list
-          (hanoi (- n 1) source destination center)
-          (hanoi 1 source center destination)
-          (hanoi (- n 1) center source destination))
-      )))
-(hanoi 4 'red 'middle 'blue)
 
 (newline)
 "let stuctures (scope)"
