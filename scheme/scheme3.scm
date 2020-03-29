@@ -2,53 +2,68 @@
 
 (define (increment a) (+ a 1))  ; note that a has local scope
 ((lambda (x) (+ x 1)) 10)       ; unnamed procecure
-(define increment_lambda        ; name an unnamed procedure
+(define increment-lambda        ; name an unnamed procedure
   (lambda (x)
     (+ x 1)))
 
 (define x 10)
 (increment 10)
 (increment x)
-(increment_lambda 10)
-
-(lambda (x) (* x 2))
-((lambda (x) (* x 2)) 10)
+(increment-lambda 10)
 
 (define do
   (lambda (this that)
     (this that)))
-(do increment 8)
-(do (lambda (x) (* x 2)) 10)
+(do increment (+ x 3))
+(do (lambda (x) (* x 2)) x)
 
-; multi-conditional procedures
+; multi-conditional procedure
+(define day-of-week
+  (lambda (n)
+    (cond
+      ((equal? 'Sunday n) 1)
+      ((equal? 'Monday n) 2)
+      ((equal? 'Tuesday n) 3)
+      ((equal? 'Wednesday n) 4)
+      ((equal? 'Thursday n) 5)
+      ((equal? 'Friday n) 6)
+      ((equal? 'Saturday n) 7)
+      (else 0))))
+(day-of-week 'Sunday)
+(day-of-week 'Friday)
+(define Thursday 10)
+Thursday
+(day-of-week 'Thursday)
+(day-of-week Thursday)
+
 (define grade
   (lambda (n)
     (cond
       ((>= n 900) 'A)
       ((>= n 800) 'B)
       ((>= n 700) 'C)
-      ((>= n 600) 'D)
+      ((>= n 550) 'D)
       (else 'F))))
 (grade 100)
 (grade 899)
-(grade 901)
+(grade (+ 810 91))
+
+(define hanoi
+  (lambda (n source center destination)
+    (if (= n 1)    ; base case
+        (list 'Move source destination)
+        (list
+           (hanoi (- n 1) source destination center)
+           (hanoi 1 source center destination)
+           (hanoi (- n 1) center source destination)
+         ))))
+(hanoi 4 'red 'yellow 'blue)
 
 (newline)
 "Including a module"
 (require "scheme3inc.scm")
 (fib-tail 10)
-
-(define hanoi
-  (lambda (n source center destination)
-    (if (= n 1)  ; stopping condition
-      (list 'Move source destination)
-      (list
-          (hanoi (- n 1) source destination center)
-          (hanoi 1 source center destination)
-          (hanoi (- n 1) center source destination))
-      )))
-(hanoi 4 'red 'middle 'blue)
-
+;(fib 10)    ; Not provided by scheme3inc.scm
 
 "Multiply-all"
 (define multiply-all
@@ -65,7 +80,6 @@
     (if (null? lst)
         base-case
         (operator (car lst) (red operator base-case (cdr lst))))))
-
 (red + 0 '(1 2 3 4))
 (red * 1 '(1 2 3 4))
 
@@ -78,17 +92,17 @@
 (sum-all '(1 2 3 4))
 (mult-all '(1 2 3 4))
 
-(define double-lst
+(define double-list
   (lambda (lst)
     (red (lambda (x y) (cons (* 2 x) y)) '() lst)))
-(double-lst '(1 2 3 4))
+(double-list '(1 2 3 4))
 
 (newline)
 "length"
 (red (lambda (x y) (+ 1 y)) 0 '(1 2 3 4))
 "square list"
 (red (lambda (x y) (cons (* x x) y)) '() '(1 2 3 4))
-"get-odds"
+"get all odd values"
 (red (lambda (x y) (if (= 0 (remainder x 2)) y (cons x y))) '() '(1 2 3 4))
 "reverse"
 (red (lambda (x y) (append y (list x))) '() '(1 2 3 4))
@@ -107,6 +121,7 @@
 (newline)
 "Higher-order functions - map"
 (map increment lst)
+(map increment lstn)
 (map (lambda (x) (* x x)) lst)
 (map (lambda (x) (* x x)) lstn)
 (map (lambda (x) (if (> x 0) x (* -1 x))) lstn)
@@ -116,11 +131,11 @@
 
 (newline)
 "Higher-order functions - filter"
-(filter (lambda (x) (if (>= x 0) #t #f)) lstn)
 (filter pair? badlst)
 (filter string? badlst)
 (filter number? badlst)
-(filter (lambda (x) (not (pair? x))) lstn)
+(filter (lambda (x) (if (>= x 0) #t #f)) lstn)
+(filter (lambda (x) (not (pair? x))) badlst)
 
 (newline)
 "combining higher-order functions)"
@@ -148,10 +163,10 @@
     (lambda (guess)
       (= secret guess))))
 (secret-num-curr 10)
-(define guessing_game (secret-num-curr 10))
-guessing_game
-(guessing_game 5)
-(guessing_game 10)
+(define guessing-game (secret-num-curr 10))
+guessing-game
+(guessing-game 5)
+(guessing-game 10)
 
 (define in-range
   (lambda (min max)
@@ -188,25 +203,24 @@ f1
 (f4 -2)
 
 (newline)
-"let stuctures (scope)"
+"Scope"
 (define a 100)
 a
+(+ 7 a)
 
 (let
     ((a 4)
      (b 3))
   (+ a b))
 
-(let
-    ((a 4)
-     (b (+ a 1)))   ; a comes from the outer scope
-  (* a b))
+(let ((a 4)
+      (b (+ a 1)))    ; a comes from the global scope
+  (+ a b))
 
-(let
-    ((a 4))
+(let ((a 4))
   (let
-      ((b (+ a 1)))
-    (* a b)))       ; a comes from the inner scope
+      ((b (+ a 1)))   ; a comes from the outer scope
+    (+ a b)))
 
 ; You can make things confusing
 (let
@@ -215,6 +229,11 @@ a
       ((x 3)
        (y (* 5 x)))
     (+ x y)))
+
+(let
+    ((cdr car)
+     (car cdr))
+  (list (car '(1 2 3 4)) (cdr '(1 2 3 4))))
 
 (define let-test
   (lambda (x)
@@ -225,19 +244,17 @@ a
       (+ a b c))))
 (let-test 10)
 
-
-(define habitat-material
+; calculates the volume of material in a cylindrical shell
+(define cylinder-material
   (lambda (height radius thickness)
     (let
         ((pi 3.14159265))
       (let
-          ((cylinder_volume
-            (lambda (r h)
-              (* h (* pi (* r r))))))
-        (-
-         (cylinder_volume radius height)
-         (cylinder_volume (- radius thickness) (- height (* 2 thickness))))))))
-(habitat-material 10 5 1)
+          ((cylinder-vol (lambda (h r)
+                           (* h (* pi (* r r))))))
+        (- (cylinder-vol height radius)
+           (cylinder-vol (- height (* 2 thickness)) (- radius thickness)))))))
+(cylinder-material 20 7 1)
 
 (let
     ((+ 10)
@@ -251,11 +268,9 @@ a
     ((a 4)
      (b 5))
   (+ a b))
-
 ((lambda (a b) (+ a b)) 4 5)
 
 ((lambda (x y) (+ (* x x) (* y y))) 3 4)
-
 (let
     ((x 3)
      (y 4))
@@ -273,6 +288,10 @@ a
 
 (newline)
 "match"
+(list (remainder 20 2) (remainder 20 5))
+(list (remainder 15 2) (remainder 15 5))
+(list (remainder 17 2) (remainder 17 5))
+(list (remainder 8 2) (remainder 8 5))
 (define multiple-of-2-and-5
   (lambda (n)
     (match (list (remainder n 2) (remainder n 5))
@@ -284,3 +303,23 @@ a
 (multiple-of-2-and-5 15)               
 (multiple-of-2-and-5 17)
 (multiple-of-2-and-5 8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
